@@ -1,0 +1,57 @@
+==========> Access <==========
+- external:
+ + can only be called from outside
+- internal:
+ + can only be called by contract and inherited contract
+- public:
+ + public == external && internal
+ + can be called everywhere (outside, contract, inherited contract)
+- private:
+ + can only be called by contract
+ + can not be called by inherited contract
+==========> Access <==========
+
+==========> Data Location <==========
+- calldata:
+ + use when you only need read-only data
+ + avoiding the cost of allocating memory or storage
+- memory
+ + use if you want your argument to be mutable
+- storage
+ + use storage if your argument will/already exist in storage
+ + to prevent copying data from/to storage and memory unnecessarily
+- for complex data types (string, array, map, ...)
+ + when assign data from one location type to another location type, data is copied
+ + when assign data from one location type to the same location type, data is referenced
+- for basic data type (uint, boolean, ...)
+ + when assign data to another variable, data is copied
+ + can not specify data location for basic data type
+==========> Data Location <==========
+
+==========> View vs Pure <==========
+- view
+ + function getResult() public view return(uint result) {}
+ + can not cause side effect (update state, emit event, ...)
+ + can read state
+- pure
+ + function getResult() public pure return(uint result) {}
+ + like "view" function, except it can not read state, only read passed in parameters
+==========> View vs Pure <==========
+
+==========> Payable <==========
+- functions and addresses declared payable can receive ether into the contract, even constructor
+- example: address payable public owner;
+- example: receive() external payable { }
+- example fallback function: fallback() external payable { }
+- when no other function matches (not even the receive function), then fallback function called
+- we might not need to write any logic in payable function, unless we need additional require()s or update state
+- get sent ether amount: msg.value
+- get smart contract balance: uint amount = address(this).balance;
+- transfer contract's ethers to payable address: (bool success, ) = owner.call{value: amount}("");
+- reference: https://docs.alchemy.com/docs/solidity-payable-functions
+- reference: https://solidity-by-example.org/payable/
+- reference: https://solidity-by-example.org/sending-ether/
+==========> Payable <==========
+
+==========> Event and Log <==========
+==========> Event and Log <==========
